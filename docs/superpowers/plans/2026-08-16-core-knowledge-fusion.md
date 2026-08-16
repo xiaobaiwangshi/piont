@@ -16,10 +16,10 @@
 - Create: `knowledge-base/99-原始资料主题索引.md`
 - Modify: `knowledge-base/99-勘误与来源.md`
 
-- [ ] **Step 1:** Inventory all 15 files in `raw_doc_` with type, page count where applicable, text-layer status, stable topics, version risks, and target knowledge-base chapters.
-- [ ] **Step 2:** Record the extraction rule: text PDFs use `pdftotext -layout`; scanned PDFs use targeted 300-DPI rendering and `chi_sim+eng`; ZIP/CHM expand only under `tmp/`.
-- [ ] **Step 3:** Link the new index from `99-勘误与来源.md`.
-- [ ] **Step 4:** Verify the raw directory still contains exactly the original 15 files and no generated sidecars.
+- [x] **Step 1:** Inventory all 15 files in `raw_doc_` with type, page count where applicable, text-layer status, stable topics, version risks, and target knowledge-base chapters.
+- [x] **Step 2:** Record the extraction rule: text PDFs use `pdftotext -layout`; scanned PDFs use targeted 300-DPI rendering and `chi_sim+eng`; ZIP/CHM expand only under `tmp/`.
+- [x] **Step 3:** Link the new index from `99-勘误与来源.md`.
+- [x] **Step 4:** Verify the raw directory still contains exactly the original 15 files and no generated sidecars.
 
 ### Task 2: Fuse the four computer-science foundations
 
@@ -32,10 +32,10 @@
 - Modify: `knowledge-base/07-核心机制深入/02-协议栈与网络性能.md`
 - Modify: `knowledge-base/07-核心机制深入/03-数据结构与算法工程.md`
 
-- [ ] **Step 1:** Add instruction execution, storage hierarchy, cache locality, interrupts, DMA, virtual memory, scheduling, filesystems, and I/O evidence chains without duplicating the deep-mechanism chapters.
-- [ ] **Step 2:** Add TCP sliding/receive/congestion windows, slow start, congestion avoidance, retransmission, bandwidth-delay product, DNS/routing/TLS boundaries, formulas, examples, and packet-capture checks.
-- [ ] **Step 3:** Connect arrays, hashes, trees, heaps, graphs, external sorting, B+ tree fan-out, and complexity to real server components.
-- [ ] **Step 4:** Add explicit version boundaries, exercises, calculations, and experiments to all four foundation chapters.
+- [x] **Step 1:** Add instruction execution, storage hierarchy, cache locality, interrupts, DMA, virtual memory, scheduling, filesystems, and I/O evidence chains without duplicating the deep-mechanism chapters.
+- [x] **Step 2:** Add TCP sliding/receive/congestion windows, slow start, congestion avoidance, retransmission, bandwidth-delay product, DNS/routing/TLS boundaries, formulas, examples, and packet-capture checks.
+- [x] **Step 3:** Connect arrays, hashes, trees, heaps, graphs, external sorting, B+ tree fan-out, and complexity to real server components.
+- [x] **Step 4:** Add explicit version boundaries, exercises, calculations, and experiments to all four foundation chapters.
 
 ### Task 3: Fuse Web, runtime, and LNMP knowledge
 
@@ -46,10 +46,10 @@
 - Modify: `knowledge-base/03-Web服务端/03-LNMP部署与调优.md`
 - Modify: `knowledge-base/07-核心机制深入/04-服务端运行时与Web.md`
 
-- [ ] **Step 1:** Add browser parse/layout/paint and modern multi-process boundaries to the URL-to-response path.
-- [ ] **Step 2:** Correct legacy HTTP/1.1 material with current HTTP semantics and distinguish HTTP/1.1, HTTP/2, and HTTP/3 behavior.
-- [ ] **Step 3:** Preserve stable PHP OOP/error/design concepts while marking PHP 5 behavior obsolete and using PHP 8.x for examples; retain Go comparisons.
-- [ ] **Step 4:** Add Nginx worker/event/proxy/buffering, PHP-FPM capacity, Linux service-management version boundaries, deployment cases, and 502/504 evidence chains.
+- [x] **Step 1:** Add browser parse/layout/paint and modern multi-process boundaries to the URL-to-response path.
+- [x] **Step 2:** Correct legacy HTTP/1.1 material with current HTTP semantics and distinguish HTTP/1.1, HTTP/2, and HTTP/3 behavior.
+- [x] **Step 3:** Preserve stable PHP OOP/error/design concepts while marking PHP 5 behavior obsolete and using PHP 8.x for examples; retain Go comparisons.
+- [x] **Step 4:** Add Nginx worker/event/proxy/buffering, PHP-FPM capacity, Linux service-management version boundaries, deployment cases, and 502/504 evidence chains.
 
 ### Task 4: Fuse databases, cache, search, and messaging
 
@@ -60,10 +60,10 @@
 - Modify: `knowledge-base/04-组件/04-Kafka与消息队列.md`
 - Modify: `knowledge-base/07-核心机制深入/05-数据系统内部机制.md`
 
-- [ ] **Step 1:** Add InnoDB page-size configuration, Buffer Pool page accounting, B+ tree fan-out/tree-height calculations, clustered/secondary index lookup cost, and MySQL 5.7/8.0/8.4 boundaries.
-- [ ] **Step 2:** Add Redis object/encoding evolution, persistence, cache failure modes, hot/big key diagnosis, Cluster limits, and version boundaries.
-- [ ] **Step 3:** Expand Elasticsearch segment, refresh, merge, mapping, shard sizing, deep pagination, and 7.x/8.x differences.
-- [ ] **Step 4:** Combine Kafka and RabbitMQ around delivery, ordering, acknowledgements, retries, dead letters, backpressure, consumer failure experiments, quorum queues, and streams.
+- [x] **Step 1:** Add InnoDB page-size configuration, Buffer Pool page accounting, B+ tree fan-out/tree-height calculations, clustered/secondary index lookup cost, and MySQL 5.7/8.0/8.4 boundaries.
+- [x] **Step 2:** Add Redis object/encoding evolution, persistence, cache failure modes, hot/big key diagnosis, Cluster limits, and version boundaries.
+- [x] **Step 3:** Expand Elasticsearch segment, refresh, merge, mapping, shard sizing, deep pagination, and 7.x/8.x differences.
+- [x] **Step 4:** Combine Kafka and RabbitMQ around delivery, ordering, acknowledgements, retries, dead letters, backpressure, consumer failure experiments, quorum queues, and streams.
 
 ### Task 5: Connect architecture, navigation, and validation
 
@@ -75,8 +75,8 @@
 - Modify: `knowledge-base/00-学习路线.md`
 - Modify: `knowledge-base/README.md`
 
-- [ ] **Step 1:** Connect stable architecture principles to quantified constraints, queues, caches, replication, partitioning, and failure domains; mark obsolete product recipes as historical only.
-- [ ] **Step 2:** Add cross-topic cases for a Web request, slow query, cache incident, message backlog, and dependency timeout.
-- [ ] **Step 3:** Update the learning route and README so the integrated chapters, experiments, and source index are reachable from the single entry point.
-- [ ] **Step 4:** Run `bash scripts/check-learning-links.sh`, a Markdown local-link scan covering all `knowledge-base/`, `git diff --check`, and source-directory integrity checks.
-- [ ] **Step 5:** Review every fixed number for a version/configuration qualifier and every core claim for a traceable source or reproducible experiment.
+- [x] **Step 1:** Connect stable architecture principles to quantified constraints, queues, caches, replication, partitioning, and failure domains; mark obsolete product recipes as historical only.
+- [x] **Step 2:** Add cross-topic cases for a Web request, slow query, cache incident, message backlog, and dependency timeout.
+- [x] **Step 3:** Update the learning route and README so the integrated chapters, experiments, and source index are reachable from the single entry point.
+- [x] **Step 4:** Run `bash scripts/check-learning-links.sh`, a Markdown local-link scan covering all `knowledge-base/`, `git diff --check`, and source-directory integrity checks.
+- [x] **Step 5:** Review every fixed number for a version/configuration qualifier and every core claim for a traceable source or reproducible experiment.
