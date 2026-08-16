@@ -16,50 +16,50 @@
 - Modify: `knowledge-base/01-基础/04-数据结构与算法.md`
 - Modify: `knowledge-base/07-核心机制深入/03-数据结构与算法工程.md`
 
-- [ ] **Step 1:** Add learning objectives, prerequisites and a reading map to the main chapter.
-- [ ] **Step 2:** State that pseudocode and calculations are explanatory only and no program, test or benchmark is run.
-- [ ] **Step 3:** Keep definitions and calculations in the main chapter and reserve deep derivations for the engineering chapter.
+- [x] **Step 1:** Add learning objectives, prerequisites and a reading map to the main chapter.
+- [x] **Step 2:** State that pseudocode and calculations are explanatory only and no program, test or benchmark is run.
+- [x] **Step 3:** Keep definitions and calculations in the main chapter and reserve deep derivations for the engineering chapter.
 
 ### Task 2: Complete complexity and basic structures
 
 **Files:**
 - Modify: `knowledge-base/01-基础/04-数据结构与算法.md`
 
-- [ ] **Step 1:** Expand asymptotic time/space analysis with best, average, worst, expected and amortized boundaries.
-- [ ] **Step 2:** Complete arrays, linked lists, stacks, queues and deques with locality and operation-precondition caveats.
-- [ ] **Step 3:** Complete hash tables with collision, load factor, resize, expected/degenerate cost and capacity calculations.
-- [ ] **Step 4:** Complete tree/heap selection: BST, balanced trees, heap, B/B+ tree, Trie, segment and Fenwick trees.
-- [ ] **Step 5:** Complete graph and disjoint-set representation, traversal, topological order, shortest paths, MST and connectivity boundaries.
+- [x] **Step 1:** Expand asymptotic time/space analysis with best, average, worst, expected and amortized boundaries.
+- [x] **Step 2:** Complete arrays, linked lists, stacks, queues and deques with locality and operation-precondition caveats.
+- [x] **Step 3:** Complete hash tables with collision, load factor, resize, expected/degenerate cost and capacity calculations.
+- [x] **Step 4:** Complete tree/heap selection: BST, balanced trees, heap, B/B+ tree, Trie, segment and Fenwick trees.
+- [x] **Step 5:** Complete graph and disjoint-set representation, traversal, topological order, shortest paths, MST and connectivity boundaries.
 
 ### Task 3: Complete algorithms, calculations and cases
 
 **Files:**
 - Modify: `knowledge-base/01-基础/04-数据结构与算法.md`
 
-- [ ] **Step 1:** Complete binary search, comparison/non-comparison sorting, selection and stability/in-place boundaries.
-- [ ] **Step 2:** Complete divide-and-conquer, greedy proof/counterexample, dynamic-programming state dependencies and backtracking pruning.
-- [ ] **Step 3:** Add calculations for complexity growth, dynamic-array amortization, Top K, graph storage, Bloom Filter and external merge sorting.
-- [ ] **Step 4:** Connect structures to MySQL B+ trees, Redis dict/skiplist, Kafka logs, LRU and dependency scheduling without claiming source-level identity.
-- [ ] **Step 5:** Add a selection evidence chain, ten misconceptions, ten self-test questions and concise answers with assumptions.
+- [x] **Step 1:** Complete binary search, comparison/non-comparison sorting, selection and stability/in-place boundaries.
+- [x] **Step 2:** Complete divide-and-conquer, greedy proof/counterexample, dynamic-programming state dependencies and backtracking pruning.
+- [x] **Step 3:** Add calculations for complexity growth, dynamic-array amortization, Top K, graph storage, Bloom Filter and external merge sorting.
+- [x] **Step 4:** Connect structures to MySQL B+ trees, Redis dict/skiplist, Kafka logs, LRU and dependency scheduling without claiming source-level identity.
+- [x] **Step 5:** Add a selection evidence chain, ten misconceptions, ten self-test questions and concise answers with assumptions.
 
 ### Task 4: Focus the engineering-deep chapter
 
 **Files:**
 - Modify: `knowledge-base/07-核心机制深入/03-数据结构与算法工程.md`
 
-- [ ] **Step 1:** Expand structural and loop invariants, proof obligations and minimal counterexamples.
-- [ ] **Step 2:** Add potential/accounting reasoning for dynamic-array and hash-table amortized costs.
-- [ ] **Step 3:** Add Bloom Filter formulas and clarify Count-Min Sketch, HyperLogLog and reservoir-sampling error boundaries.
-- [ ] **Step 4:** Expand concurrent structure ownership, CAS/ABA/reclamation and external-sort failure/recovery reasoning.
-- [ ] **Step 5:** Replace executable validation/benchmark wording with non-executed evaluation methods and link duplicated formulas to the main chapter.
+- [x] **Step 1:** Expand structural and loop invariants, proof obligations and minimal counterexamples.
+- [x] **Step 2:** Add potential/accounting reasoning for dynamic-array and hash-table amortized costs.
+- [x] **Step 3:** Link the main-chapter Bloom Filter formulas and clarify Count-Min Sketch, HyperLogLog and reservoir-sampling error boundaries.
+- [x] **Step 4:** Expand concurrent structure ownership, CAS/ABA/reclamation and external-sort failure/recovery reasoning.
+- [x] **Step 5:** Replace executable validation/benchmark wording with non-executed evaluation methods and link duplicated formulas to the main chapter.
 
 ### Task 5: Static acceptance
 
 **Files:**
 - Modify: `docs/superpowers/plans/2026-08-16-data-structures-algorithms-sample-chapters.md`
 
-- [ ] **Step 1:** Scan headings and required keywords against the approved design.
-- [ ] **Step 2:** Verify both Markdown files have balanced code fences and valid local links.
-- [ ] **Step 3:** Verify no trailing whitespace or placeholder text appears in either file.
-- [ ] **Step 4:** Verify `raw_doc_` remains at 16 source files with no PNG/JPG/TXT sidecars.
-- [ ] **Step 5:** Run `git diff --check` and mark all checkboxes complete only after checks pass.
+- [x] **Step 1:** Scan headings and required keywords against the approved design.
+- [x] **Step 2:** Verify both Markdown files have balanced code fences and valid local links.
+- [x] **Step 3:** Verify no trailing whitespace or placeholder text appears in either file.
+- [x] **Step 4:** Verify `raw_doc_` remains at 16 source files with no PNG/JPG/TXT sidecars.
+- [x] **Step 5:** Run `git diff --check` and mark all checkboxes complete only after checks pass.
