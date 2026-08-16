@@ -1,8 +1,10 @@
-# AI 与大模型知识库设计
+# AI Agent 开发知识库设计
 
 ## 目标
 
-把 `raw_llm/` 与 `raw_llm_doc/` 中零散、重复且部分过时的 AI 资料，整理为从基础原理到训练、RAG、Agent、推理部署和安全评测的全栈学习资料。新文档进入 `knowledge-base/` 唯一入口；原始目录保持不变。
+面向一名具有十年全栈开发经验、正在转型 AI Agent 开发的工程师，把 `raw_llm/` 与 `raw_llm_doc/` 中零散、重复且部分过时的 AI 资料，整理成“能设计、实现、上线和治理 Agent 系统”的学习资料。新文档进入 `knowledge-base/` 唯一入口；原始目录保持不变。
+
+这不是模型研究员培养路线。数学、训练和分布式推理只讲到足以做技术选型和排障；重点是模型接口、上下文工程、RAG/记忆、工具调用、MCP、工作流、状态恢复、评测、安全、可观测性和成本。
 
 ## 资料现状
 
@@ -13,21 +15,22 @@
 
 ## 方案选择
 
-采用“八篇主题主线 + 一篇核心机制深入章”：
+采用“一篇转型路线 + 八篇 Agent 工程主题 + 一篇核心机制深入章”：
 
 ```text
 knowledge-base/09-AI与大模型/
-├── 00-学习路线.md
-├── 01-大模型基础与Transformer.md
-├── 02-训练微调与对齐.md
-├── 03-RAG与知识库.md
-├── 04-Agent与AI应用工程.md
-├── 05-推理部署与性能.md
-├── 06-评测安全与治理.md
-└── 07-资料导读与版本风险.md
+├── 00-AI-Agent转型路线.md
+├── 01-LLM应用基础与模型接口.md
+├── 02-RAG上下文与长期记忆.md
+├── 03-工具调用MCP与系统集成.md
+├── 04-Agent架构编排与多Agent.md
+├── 05-Agent生产工程与可靠性.md
+├── 06-评测安全成本与治理.md
+├── 07-模型训练与推理部署选学.md
+└── 08-资料导读与版本风险.md
 
 knowledge-base/07-核心机制深入/
-└── 10-大模型核心机制.md
+└── 10-Agent运行机制与可靠性.md
 ```
 
 并更新：
@@ -35,7 +38,7 @@ knowledge-base/07-核心机制深入/
 - `knowledge-base/README.md`
 - `knowledge-base/00-学习路线.md`
 
-未采用的方案：镜像原目录会保留重复问答和旧分类；合并成三篇大文档会使训练、检索与部署难以维护；建立代码/实验项目不符合本轮“创建学习资料”的目标。
+未采用的方案：镜像原目录会把训练和模型面试题放在主线前面，偏离转型目标；按模型算法组织会弱化全栈工程经验；合并成三篇大文档会使 Agent 的状态、工具、可靠性和安全边界难以维护；建立代码/实验项目不符合本轮“创建学习资料”的目标。
 
 ## 统一章节结构
 
@@ -53,112 +56,160 @@ knowledge-base/07-核心机制深入/
 
 命令、伪代码和架构流程仅用于解释知识，本轮不下载模型、不训练、不部署服务，也不运行 GPU/向量库实验。
 
-## 00 学习路线
+## 既有经验如何迁移
 
-提供三条路线：
+现有全栈知识不是从零开始，必须在学习路线中显式映射：
 
-- AI 应用工程：基础 → RAG → Agent → 评测安全 → 推理服务。
-- 模型训练：基础 → 核心机制 → 数据/预训练 → SFT/PEFT → 对齐 → 分布式训练。
-- 推理平台：基础 → 核心机制 → 推理指标 → KV Cache/批处理/量化 → 服务容量与可观测性。
+| 已有能力 | Agent 开发中的迁移 |
+|---|---|
+| Web/API | 模型网关、流式响应、工具 API、Webhook、鉴权与限流 |
+| MySQL/Redis/ES | 对话状态、短期缓存、向量/混合检索、审计记录 |
+| Kafka/队列 | 长任务、异步工具、事件驱动工作流、重试与死信 |
+| 分布式系统 | 幂等、超时、重试、补偿、一致性和状态恢复 |
+| 操作系统/网络 | SSE、连接取消、并发、资源限制与推理延迟 |
+| 可观测性/安全 | Trace、SLO、成本、权限、脱敏、审计和事故响应 |
 
-每条路线注明必学、选学、前置数学和与现有计算机基础、数据结构、网络、操作系统、MySQL/Redis/ES 的连接。
+真正需要补齐的差异是：模型输出具有概率性；自然语言不是稳定 API；上下文有限且会被不可信文本污染；评测不能只用传统单元测试；工具调用会把模型错误变成真实副作用。
 
-## 01 大模型基础与 Transformer
+## 00 AI Agent 转型路线
 
-覆盖：
-
-- AI、机器学习、深度学习、NLP、生成模型和 LLM 的边界。
-- token、词表、BPE/WordPiece/Unigram/SentencePiece、embedding 与上下文窗口。
-- 语言模型概率、交叉熵、困惑度和自回归生成。
-- Transformer 的 embedding、位置编码、Attention、残差、LayerNorm、FFN 与输出头。
-- Encoder、Decoder、Encoder-Decoder 和 decoder-only 的适用边界。
-- MHA/MQA/GQA、RoPE、MoE、稠密模型与路由模型。
-- greedy、beam、temperature、top-k、top-p 与重复惩罚。
-- 传统 NLP 的分词、词向量、CNN/RNN/BERT 只保留理解现代 LLM 所需内容。
-
-不把某个模型家族、参数量、上下文长度或排行榜当作长期稳定事实。
-
-## 02 训练、微调与对齐
-
-按数据流组织：
+主线按交付能力组织：
 
 ```text
-数据采集/许可 → 清洗去重 → tokenizer → 预训练
-→ 指令/SFT → PEFT/LoRA → 偏好对齐 → 评测与发布
+LLM 应用基础与模型接口
+→ RAG、上下文与记忆
+→ 工具调用、MCP 与系统集成
+→ Agent 状态机、工作流与多 Agent
+→ 生产可靠性
+→ 评测、安全、成本与治理
 ```
 
-覆盖数据质量、泄漏、采样、packing、预训练目标、SFT、Adapter、Prompt Tuning、LoRA/QLoRA、持续预训练、灾难性遗忘、RLHF、奖励模型、PPO、DPO 及各自边界。
+训练、微调、自托管推理和 GPU 优化作为选学，只在 API 模型、RAG 或提示无法满足需求，以及数据合规/成本/延迟确实要求自建时进入。
 
-分布式部分解释数据并行、张量并行、流水线并行、序列/上下文并行、专家并行、混合并行、ZeRO/FSDP、gradient accumulation、activation checkpointing、AMP 与通信/负载均衡。框架命令绑定 PyTorch、DeepSpeed、Accelerate 等具体版本，不作为稳定接口。
+路线以“能交付什么”验收：能实现带引用的知识问答、受控工具执行、长任务恢复、人工审批、回归评测、成本监控和安全边界，而不是背模型名称。
 
-## 03 RAG 与知识库
+## 01 LLM 应用基础与模型接口
 
-按完整链路组织：
+只保留 Agent 工程必须掌握的模型知识：
+
+- token、上下文窗口、embedding、自回归生成、temperature/top-p、停止条件。
+- Transformer、Attention、位置编码、MHA/MQA/GQA、decoder-only 的工程意义。
+- system/developer/user/tool 消息、structured output、JSON Schema、function/tool calling。
+- streaming、取消、超时、重试、速率限制、幂等键、模型回退和供应商抽象边界。
+- prompt 模板、few-shot、上下文排序、指令冲突、输出校验和修复。
+- API 成本、输入/输出 token、缓存和延迟的估算。
+
+重点说明模型输出不是可信反序列化结果：结构化输出仍需 Schema、业务规则、权限和副作用前校验。LangChain 等 SDK 只作可替换实现，不围绕框架 API 组织知识。
+
+## 02 RAG、上下文与长期记忆
+
+把 RAG 和 Agent 记忆放在同一条数据链中：
 
 ```text
-文档采集 → 解析/OCR/版面恢复 → 清洗 → 分块
-→ embedding/稀疏索引 → 检索 → rerank → 上下文组装
-→ 生成/引用 → 检索与答案评测 → 反馈和重建
+数据源 → 解析/OCR → 清洗/分块/metadata → 索引
+→ 查询理解 → 检索/权限过滤 → rerank
+→ 上下文组装/引用 → 生成 → 评测 → 更新/重建
 ```
 
-覆盖 chunk 策略、metadata、向量与 BM25、hybrid search、query rewrite、HyDE、multi-query/RAG-Fusion、reranker、上下文压缩、权限过滤、增量更新、GraphRAG 和多模态文档边界。
+区分四种状态：当前轮消息、会话摘要/工作记忆、用户/业务长期记忆、外部权威知识库。记忆不是简单把所有历史放进 prompt；必须定义写入条件、事实来源、冲突合并、过期、删除、权限和可追溯性。
 
-评测区分 Recall@K、MRR、nDCG 等检索指标与 faithfulness、answer relevance、citation correctness 等生成指标；解释“检索到了、模型用了、答案正确”是三个不同问题。
+覆盖 BM25、embedding、hybrid search、ANN、query rewrite、HyDE、multi-query/RAG-Fusion、reranker、上下文压缩、GraphRAG 和多模态文档边界。重点处理 PDF 表格、标题层级、跨页内容、版本化和增量索引。
 
-## 04 Agent 与 AI 应用工程
+评测区分 Recall@K、MRR、nDCG、上下文相关性、faithfulness、答案正确性和引用正确性；“检索到了、模型使用了、回答正确”分别验收。
 
-把 Agent 定义为受约束的循环，而不是“自动思考”的人格化系统：
+## 03 工具调用、MCP 与系统集成
+
+围绕全栈工程师最关键的“模型如何安全操作真实系统”组织：
+
+- 工具定义、名称/描述、JSON Schema、参数校验、返回值和错误分类。
+- read-only 与 write 工具、最小权限、租户隔离、密钥管理和审计。
+- 同步/异步工具、轮询/Webhook、超时、取消、重试、幂等和补偿。
+- MCP 的 client/server、capability、tool/resource/prompt、transport、授权和信任边界。
+- 数据库、搜索、浏览器、文件、消息队列、内部 API 和代码执行工具的风险差异。
+- 人工审批、dry-run、预算/额度和危险操作二次确认。
+
+工具输出视为不可信输入，可能包含提示注入、过大数据、错误状态和敏感信息。模型负责提出调用意图，应用负责授权、校验和执行；不能让模型本身成为安全边界。
+
+## 04 Agent 架构、编排与多 Agent
+
+把 Agent 建模为显式状态机：
 
 ```text
-目标/状态 → 模型决策 → 工具调用 → 结果校验
-→ 状态更新/记忆 → 继续或停止
+目标 + 当前状态
+→ 选择下一动作
+→ 调用模型/工具/人工节点
+→ 校验结果
+→ 持久化状态与事件
+→ 继续、等待、补偿或终止
 ```
 
-覆盖提示结构、structured output、function/tool calling、规划、短期/长期记忆、工作流与自治 Agent 边界、多 Agent、人工审批、幂等、重试、超时、预算、审计和可恢复执行。
+覆盖 ReAct、plan-and-execute、router、supervisor/worker、reflection 的适用边界；区分确定性 workflow 与自治 Agent。能用固定 DAG/状态机解决的业务，不为了“智能”改成开放循环。
 
-LangChain 等框架只作实现例子；MCP、模型 API 和工具协议按能力边界解释。重点补充工具参数验证、最小权限、提示注入、数据外泄、危险操作确认和不可信工具结果。
+规划内容包括任务分解、终止条件、最大步数、预算、失败重规划和人工接管。多 Agent 只在角色需要不同权限、上下文、模型或并行任务时使用；否则会增加通信、重复 token、死循环和责任模糊。
 
-## 05 推理部署与性能
+框架可映射到 graph/state/workflow/runtime/checkpoint 等通用概念，不把 LangGraph、AutoGen、CrewAI 或其他框架的当前 API 当成架构定义。
 
-覆盖 prefill/decode、KV Cache、continuous batching、PagedAttention、prefix caching、量化、蒸馏、speculative decoding、张量/流水线并行和多副本调度。
+## 05 Agent 生产工程与可靠性
 
-核心指标：TTFT、TPOT/ITL、端到端延迟、tokens/s、并发、吞吐、队列时间、显存利用率、缓存命中和错误率。解释吞吐与单请求延迟、输入/输出长度、batch 和 SLO 的取舍。
+这是全栈经验迁移的核心章节，覆盖：
 
-vLLM、TensorRT-LLM、TGI、llama.cpp 等只按当前能力类别介绍；旧资料中的“快 N 倍”必须保留硬件、模型、版本、输入分布和对照基线，否则删除。
+- 会话、任务、step、tool call、artifact 和事件的持久化模型。
+- checkpoint、暂停/恢复、重放、去重、幂等副作用和 Saga/补偿。
+- 同步短请求、异步长任务、队列 worker、定时任务和事件驱动选择。
+- 并发修改、租约/锁、乐观版本、任务取消和孤儿任务回收。
+- 模型/工具超时、速率限制、熔断、退避、降级、fallback 和 dead-letter。
+- SSE 流式输出、断线续传、背压、部分结果和前端状态同步。
+- prompt/model/tool/data/evaluation 版本及全链路 trace。
+- token、模型、检索、工具、人工和基础设施的成本归因与预算控制。
 
-## 06 评测、安全与治理
+给出知识型案例：企业知识助手、工单处理 Agent、代码/运维助手和多步骤业务办理。每个案例都说明为什么需要 Agent、哪些步骤保持确定性、失败怎样恢复，以及人工在哪里介入。
 
-覆盖离线数据集、任务指标、LLM-as-a-judge、人工评测、成对比较、在线 A/B、数据泄漏、污染和回归集。生成质量与检索、工具成功率、延迟、成本、安全指标分别统计。
+## 06 评测、安全、成本与治理
 
-幻觉按知识缺失、检索失败、上下文冲突、推理错误、解码和工具错误分类。治理覆盖 prompt injection、jailbreak、不安全输出、隐私/个人信息、版权许可、供应链、模型与数据版本、日志脱敏、红队和事故响应。
+Agent 评测分层：
 
-安全措施采用纵深防御，不宣称某个提示词可以彻底消除幻觉或注入攻击。
+- 单节点：结构化输出、分类/抽取、工具选择和参数正确性。
+- RAG：检索、引用、faithfulness 和答案正确性。
+- 轨迹：步骤数、无效循环、计划完成度、工具成功率和恢复行为。
+- 端到端：任务成功、用户体验、延迟、成本、安全和人工接管率。
 
-## 07 资料导读与版本风险
+覆盖 golden set、回归集、模拟工具、确定性断言、语义评分、LLM-as-a-judge、人工盲评、在线 A/B 和生产反馈。评测数据与 prompt、模型、工具版本绑定，防止数据污染和“为 benchmark 优化”。
 
-建立主题到 `raw_llm/` 和 `raw_llm_doc/` 的映射，记录：
+威胁模型覆盖 prompt injection、间接注入、越权工具、数据外泄、跨租户记忆污染、危险代码/SQL、供应链和日志泄密。防线包括输入分区、最小权限、allowlist、Schema/业务校验、输出编码、沙箱、审批、审计、速率/成本上限和事故响应。
 
-- 可保留的稳定机制。
-- 需要校正的旧模型、框架和命令。
-- 只有标题/面试结论、缺少一级来源的内容。
-- 推荐核对的论文、官方文档和版本说明。
+## 07 模型训练与推理部署选学
+
+只讲 Agent 工程师做 build-vs-buy 决策所需内容：
+
+- 何时提示/RAG 足够，何时考虑 SFT、LoRA/QLoRA、持续预训练或偏好优化。
+- 数据质量、许可、隐私、灾难性遗忘和评测闭环。
+- prefill/decode、KV Cache、continuous batching、PagedAttention、量化和 speculative decoding。
+- TTFT、TPOT/ITL、tokens/s、并发、吞吐、队列和显存指标。
+- API 模型、开源自托管、专用小模型和混合路由的成本/合规/运维权衡。
+
+数据并行、张量并行、流水线并行、ZeRO/FSDP、RLHF/PPO/DPO 只保留概念与选型边界，不把训练框架实操作为转型主线。
+
+## 08 资料导读与版本风险
+
+建立主题到 `raw_llm/` 和 `raw_llm_doc/` 的映射，并把资料分为：Agent 主线必读、模型基础选读、训练研究参考、历史框架/版本风险。
 
 不为 92 份 PDF 逐份复制正文；Markdown 为主要线索，PDF 用于补缺和交叉检查。`main.py`、IDE 文件和依赖清单只视为资料处理附属物，不进入 AI 知识结论。
 
-## 大模型核心机制深入
+## Agent 运行机制与可靠性深入
 
-集中放置跨章节的定量推导，主章节只引用结论：
+集中放置跨章节的内部模型和定量推导：
 
-- Attention 张量形状、缩放点积、mask 与 `O(L²d)` 时间/注意力矩阵空间边界。
-- 参数、梯度、优化器状态、激活与通信组成的训练显存估算。
-- LoRA 参数量 `r(d_in+d_out)` 与秩/目标层选择。
-- KV Cache 近似：`2 × layers × tokens × kv_heads × head_dim × bytes × batch`。
-- prefill 计算密集、decode 内存带宽/延迟敏感的原因。
-- 数据/张量/流水线/专家并行的通信与气泡。
-- RAG 向量相似度、ANN 召回—延迟权衡与 rerank 成本。
-- Agent 状态机、幂等副作用和故障恢复边界。
+- Agent loop、状态机、事件日志、checkpoint 与确定性重放边界。
+- tool call 的 at-least-once 风险、幂等键、去重表和补偿。
+- 上下文预算：固定指令、历史、检索、工具结果和输出 token 的分配。
+- 摘要压缩的信息丢失、长期记忆写入/召回与冲突解决。
+- RAG 向量相似度、ANN 召回—延迟、rerank 和 context packing 成本。
+- 推理的 TTFT/TPOT、排队、并发与 Little's Law 关系。
+- KV Cache 近似：`2 × layers × tokens × kv_heads × head_dim × bytes × batch`，只用于部署选型。
+- 多 Agent 的消息拓扑、共享状态、死锁/活锁、循环和预算放大。
+- Trace 如何串联 prompt、检索、模型、工具、状态变更和用户输出。
 
-公式都注明架构与实现假设，不把估算值当实际显存或吞吐保证。
+Attention、LoRA 和训练显存公式只保留解释 Agent 选型所需部分，不发展为模型训练教材。
 
 ## 来源与纠错策略
 
@@ -171,9 +222,10 @@ vLLM、TensorRT-LLM、TGI、llama.cpp 等只按当前能力类别介绍；旧资
 
 ## 验收
 
-- 新目录八篇文档、一篇深入章和两个总入口均存在，学习路径可从 `knowledge-base/README.md` 到达。
-- 覆盖基础/架构、训练/微调/对齐、RAG、Agent、推理部署、评测安全六条完整主线。
-- 至少包含 Attention、训练显存、LoRA、KV Cache、RAG 指标和推理容量六类定量关系。
+- 新目录九篇文档、一篇深入章和两个总入口均存在，学习路径可从 `knowledge-base/README.md` 到达。
+- 转型路线明确映射 Web、数据库、队列、分布式系统、网络和可观测性经验，训练研究不占主线。
+- 覆盖 LLM 接口、RAG/记忆、工具/MCP、Agent 编排、多 Agent、生产可靠性、评测安全与部署选型。
+- 至少包含 token/上下文预算、模型 API 成本、RAG 指标、Agent 步数/预算、Little's Law 和 KV Cache 六类定量关系。
 - 每个主题解释基础、核心机制、使用案例、解决的问题、失败模式和版本边界。
 - 关键旧结论被标为历史/版本相关或已纠正；不复制大段原文。
 - 不修改 `raw_llm/` 与 `raw_llm_doc/`，不运行训练、部署和向量库实验。
