@@ -1,0 +1,6 @@
+.qmd/
+learning-materials/*
+!learning-materials/README.md
+!learning-materials/manifest.tsv
+!learning-materials/download-failures.tsv
+!learning-materials/verification-report.md
